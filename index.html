@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Friction Atlas | An Interactive Literature Review</title>
+<meta name="description" content="A gamified, interactive walk through the literature review of Micah J. Miner's dissertation on pedagogical friction, tertiary algorithmicity, and generative AI in K-12 education.">
+<meta name="author" content="Micah J. Miner">
+<meta property="og:title" content="The Friction Atlas | An Interactive Literature Review">
+<meta property="og:description" content="Seven stations through media ecology, learning science, the Pedagogical Friction Framework, the equity boundary, the counterarguments, and the K-12 evidence landscape.">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="css/atlas.css">
+</head>
+<body>
+
+<a class="skip-link" href="#station-origin">Skip to the first station</a>
+
+<header class="nav">
+  <div class="shell nav-inner">
+    <a class="brand" href="#top">THE FRICTION <span>ATLAS</span></a>
+    <div class="progress-wrap">
+      <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="7" aria-valuenow="0" aria-label="Stations completed">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <span class="progress-label" id="progressLabel">0 / 7</span>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn" id="codexBtn" type="button">
+        Source Codex <span class="tally" id="codexTally">0</span>
+      </button>
+      <button class="nav-btn" id="resetBtn" type="button">Reset</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="shell hero-grid">
+      <div>
+        <p class="eyebrow">Chapters One and Two &middot; Dissertation proposal &middot; National Louis University</p>
+        <h1>When the output looks like <span>learning</span></h1>
+        <p class="hero-sub">
+          A literature review you move through rather than read past. Seven stations trace one argument:
+          that generative AI has changed the symbolic environment in which students think, that the
+          artifact a student submits no longer reliably shows the work it appears to represent, and that
+          schools now need a language for deciding which difficulty to keep.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#station-origin">Begin at station 01</a>
+          <button class="button" id="codexBtnHero" type="button">Open the source codex</button>
+        </div>
+      </div>
+      <div>
+        <p class="hero-intro">
+          <strong>Pedagogical Friction in the Age of Generative AI and Tertiary Algorithmicity.</strong>
+          A qualitative-dominant convergent mixed methods study by Micah J. Miner,
+          Ed.D. in Curriculum, Advocacy, and Policy.
+        </p>
+        <p class="hero-intro" style="border-color:var(--rust)">
+          <strong>Proposal stage.</strong> This atlas presents the reviewed literature and the conceptual
+          framework. It reports <strong>no findings</strong>, collects no data, and stores your progress
+          only in your own browser.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="map shell" aria-labelledby="mapHeading">
+    <h2 class="visually-hidden" id="mapHeading">Station map</h2>
+    <div class="map-grid" id="mapGrid"></div>
+    <div class="badge-row" id="badgeRow"></div>
+  </section>
+
+  <!-- 01 -------------------------------------------------------------- -->
+  <section class="station" id="station-origin" style="--accent:var(--gold)" aria-labelledby="h-origin">
+    <div class="shell">
+      <div class="station-head">
+        <span class="station-num">Station 01 &middot; Chapter One, the problem</span>
+        <h2 id="h-origin">The <em>Artifact</em> Test</h2>
+        <p class="station-kicker">Unproductive success</p>
+        <p class="station-lede">
+          School assessment rests on an inference: the essay, lab report, or discussion post is a trace of
+          reading, drafting, synthesis, revision, and understanding. Read the submission below and decide
+          what it still proves.
+        </p>
+      </div>
+
+      <div class="artifact-frame">
+        <div class="artifact-paper">
+          <p class="artifact-title">On the causes of the Dust Bowl</p>
+          <p>
+            The Dust Bowl of the 1930s resulted from the convergence of ecological vulnerability and
+            economic incentive. Federal land policy encouraged the plowing of shortgrass prairie whose
+            root systems had anchored topsoil for millennia, and wheat prices during the First World War
+            rewarded expansion onto marginal land.
+          </p>
+          <p>
+            When drought arrived, the exposed soil had nothing holding it. The catastrophe is therefore
+            better understood as a policy failure with an ecological expression than as a natural disaster
+            that happened to strike farmers.
+          </p>
+        </div>
+        <div>
+          <h4>What does this artifact establish?</h4>
+          <div class="verdict-list" id="artifactChoices"></div>
+          <div class="reveal" id="artifactReveal" hidden></div>
+        </div>
+      </div>
+
+      <div class="stat-strip" id="originStats"></div>
+      <details class="source-drop" data-sources="bastani2025,kapur2016,kizilcec2024,schindler2023,miner2026b,doss2025,crotty1998,guba1994,gadamer2004,creswell2018,tashakkori2010,krutka2022a,krutka2022b,metzger2023,pleasants2025,postman1998">
+        <summary>Sources for this station</summary>
+        <ul></ul>
+      </details>
+
+      <div class="station-done" id="done-origin" hidden>
+        <p>Station 01 complete &middot; badge earned: Inference Broken</p>
+        <a class="button" href="#station-arc">Continue to station 02</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 -------------------------------------------------------------- -->
+  <section class="station" id="station-arc" style="--accent:var(--blue)" aria-labelledby="h-arc">
+    <div class="shell">
+      <div class="station-head">
+        <span class="station-num">Station 02 &middot; Chapter Two, media ecology</span>
+        <h2 id="h-arc">The Long <em>Arc</em></h2>
+        <p class="station-kicker">Ong's developmental account, extended twice</p>
+        <p class="station-lede">
+          Ong described successive transformations of the noetic world &mdash; the processes of knowing
+          themselves, not a chronology of tools. Three conditions hold tacitly across his account. Visit
+          all five stages and watch what happens to them.
+        </p>
+      </div>
+
+      <div>
+        <div class="arc-rail" id="arcRail" role="tablist" aria-label="Media ecology stages"></div>
+        <div class="arc-detail" id="arcDetail"></div>
+      </div>
+
+      <div class="legend">
+        <span><i style="background:var(--held)"></i> Condition holds</span>
+        <span><i style="background:var(--strained)"></i> Condition strained</span>
+        <span><i style="background:var(--broken)"></i> Condition no longer holds</span>
+      </div>
+
+      <p style="margin-top:22px;max-width:76ch">
+        The three conditions are <strong>reconstructed</strong> in Chapter Two, not quoted. Ong did not
+        present them as a formal list. They are named because they clarify where generative AI places
+        pressure on his account: if they continue to hold, contemporary digital communication is an
+        intensification of secondary orality; if they no longer hold, an extension is warranted.
+      </p>
+
+      <details class="source-drop" data-sources="ong2002,ong1977,ong2017,mcluhan1964,postman1985,postman1992,stalder2018,boyd2007,bucher2012,pariser2011,zuboff2019,bolter1999,kittler1990,hayles2012,hayles2017,stiegler2010,smithmarx1994,feenberg2002,hutchby2001,mayer2009,turner2013,soffer2020,heyd2021,ryu2023,cordon2024,bakshy2015,brady2017,vosoughi2018,tufekci2017,wu2016">
+        <summary>Sources for this station</summary>
+        <ul></ul>
+      </details>
+
+      <div class="station-done" id="done-arc" hidden>
+        <p>Station 02 complete &middot; badge earned: Arc Traced</p>
+        <a class="button" href="#station-rupture">Continue to station 03</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 -------------------------------------------------------------- -->
+  <section class="station" id="station-rupture" style="--accent:var(--rust)" aria-labelledby="h-rupture">
+    <div class="shell">
+      <div class="station-head">
+        <span class="station-num">Station 03 &middot; Chapter Two, the generative condition</span>
+        <h2 id="h-rupture">The <em>Rupture</em></h2>
+        <p class="station-kicker">Tertiary algorithmicity and its three pressures</p>
+        <p class="station-lede">
+          Each condition that broke at station 02 names a pressure. The three are operationally intertwined
+          but analytically distinct. Assign each condition to the pressure that describes its collapse.
+        </p>
+      </div>
+
+      <p class="prompt">Select a broken condition, then the pressure it names.</p>
+      <div class="chip-tray" id="conditionChips" role="listbox" aria-label="Conditions under pressure"></div>
+      <div class="match-grid" id="pressureGrid"></div>
+
+      <p style="margin-top:26px;max-width:78ch">
+        <strong>A note on agentic AI.</strong> Agentic systems plan and carry out multistep tasks with
+        reduced human prompting. The draft treats this as an intensification <em>within</em> tertiary
+        algorithmicity rather than a fourth stage, because the defining feature &mdash; the algorithmic
+        origination of symbolic content &mdash; now extends from producing the artifact to performing the
+        work the artifact once represented.
+      </p>
+
+      <details class="source-drop" data-sources="benderkoller2020,bender2021,clark2021,jakesch2023,jones2025,frankfurt2005,carr2011,turkle2011,floridi2020,bozkurt2024,bozkurt2025,baudrillard1994,dreyfus1992,acharya2025,schneider2025,kamalov2026,kostopoulos2025">
+        <summary>Sources for this station</summary>
+        <ul></ul>
+      </details>
+
+      <div class="station-done" id="done-rupture" hidden>
+        <p>Station 03 complete &middot; badge earned: Pressures Named</p>
+        <a class="button" href="#station-response">Continue to station 04</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 -------------------------------------------------------------- -->
+  <section class="station" id="station-response" style="--accent:var(--teal)" aria-labelledby="h-response">
+    <div class="shell">
+      <div class="station-head">
+        <span class="station-num">Station 04 &middot; Chapter Two, the framework</span>
+        <h2 id="h-response">The <em>Response</em></h2>
+        <p class="station-kicker">The Pedagogical Friction Framework</p>
+        <p class="station-lede">
+          Four dimensions, but not four peers. Try to build the learner-facing layers first and the atlas
+          will stop you &mdash; because that is the framework's central structural claim, and the study
+          treats it as a question to be examined rather than a finding to assume.
+        </p>
+      </div>
+
+      <p class="prompt">
+        Pedagogical friction is the intentional preservation of educationally productive resistance
+        necessary for durable learning under conditions where frictionless automation has become
+        increasingly available.
+      </p>
+
+      <div class="build-stack" id="buildStack"></div>
+
+      <p style="margin-top:26px;max-width:78ch">
+        The term is chosen as a counter to its ordinary meaning. In physics, friction is energy lost, to be
+        minimized. The educational argument runs the other way, treating the relevant friction not as
+        wasted energy but as the effort through which cognitive development occurs.
+      </p>
+
+      <details class="source-drop" data-sources="bjork2011,kapur2008,kapur2016,sweller1988,schindler2023,chi2014,michaels2008,bailenson2021,tomprou2021,bozkurt2024,turkle2011,rice2025,kittler1999,teachai2025,bruner1996,vygotsky1978,dewey1933,richardson2003,phillips1995,vonglasersfeld1995">
+        <summary>Sources for this station</summary>
+        <ul></ul>
+      </details>
+
+      <div class="station-done" id="done-response" hidden>
+        <p>Station 04 complete &middot; badge earned: Framework Built</p>
+        <a class="button" href="#station-boundary">Continue to station 05</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 -------------------------------------------------------------- -->
+  <section class="station" id="station-boundary" style="--accent:var(--rose)" aria-labelledby="h-boundary">
+    <div class="shell">
+      <div class="station-head">
+        <span class="station-num">Station 05 &middot; Chapter Two, the equity boundary</span>
+        <h2 id="h-boundary">The <em>Boundary</em></h2>
+        <p class="station-kicker">Productive and exclusionary friction</p>
+        <p class="station-lede">
+          An argument for preserving friction becomes an argument for preserving inequity if it does not
+          ask whose learning a given difficulty supports and whose participation it obstructs. Ten
+          scenarios. Some are genuinely contested, and calling them contested is the correct answer.
+        </p>
+      </div>
+
+      <div class="scoreboard" id="sortScore"></div>
+      <div class="sort-stage">
+        <div class="sort-card" id="sortCard"></div>
+        <div>
+          <h4>Where does this difficulty sit?</h4>
+          <div class="sort-choices" id="sortChoices"></div>
+        </div>
+      </div>
+      <div class="reveal" id="sortReveal" hidden></div>
+
+      <details class="source-drop" data-sources="annamma2013,dolmage2017,kasneci2023,kapur2016,bjork2011,kapur2008,sweller1988,chi2014,michaels2008,clark2021,jakesch2023,rice2025,teachai2025,mollick2024,riva2025,ellington2003,miner2026b">
+        <summary>Sources for this station</summary>
+        <ul></ul>
+      </details>
+
+      <div class="station-done" id="done-boundary" hidden>
+        <p>Station 05 complete &middot; badge earned: Line Drawn</p>
+        <a class="button" href="#station-arena">Continue to station 06</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 -------------------------------------------------------------- -->
+  <section class="station" id="station-arena" style="--accent:var(--violet)" aria-labelledby="h-arena">
+    <div class="shell">
+      <div class="station-head">
+        <span class="station-num">Station 06 &middot; Chapter Two, counterarguments</span>
+        <h2 id="h-arena">The <em>Arena</em></h2>
+        <p class="station-kicker">Objections and the limits of the framework</p>
+        <p class="station-lede">
+          A responsible framework engages the strongest objections rather than the weakest. Four are stated
+          here at full strength, including one that comes from the theoretical tradition the framework
+          itself draws on. Identify the reply the draft actually makes.
+        </p>
+      </div>
+
+      <div class="arena-nav" id="arenaNav" role="tablist" aria-label="Objections"></div>
+      <div id="arenaPanel"></div>
+
+      <details class="source-drop" data-sources="mollick2024,riva2025,ellington2003,smithmarx1994,feenberg2002,hutchby2001,dron2023,dolmage2017,annamma2013,kasneci2023,baudrillard1994,bjork2011,kapur2016,sweller1988,postman1992,ong2002">
+        <summary>Sources for this station</summary>
+        <ul></ul>
+      </details>
+
+      <div class="station-done" id="done-arena" hidden>
+        <p>Station 06 complete &middot; badge earned: Objections Met</p>
+        <a class="button" href="#station-gap">Continue to station 07</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 -------------------------------------------------------------- -->
+  <section class="station" id="station-gap" style="--accent:var(--gold)" aria-labelledby="h-gap">
+    <div class="shell">
+      <div class="station-head">
+        <span class="station-num">Station 07 &middot; Chapter Two, evidence and the gap</span>
+        <h2 id="h-gap">The Landscape and the <em>Gap</em></h2>
+        <p class="station-kicker">K&ndash;12 adoption, policy, guidance, and what the literature has not done</p>
+        <p class="station-lede">
+          Adoption without guidance is an empirical premise of infrastructural friction. These are weighted
+          descriptive estimates from public RAND/Gallup microdata and published NCES School Pulse Panel
+          results &mdash; secondary analysis, not findings from the proposed participant study.
+        </p>
+      </div>
+
+      <div class="ev-controls" id="evControls"></div>
+      <div id="evChart"></div>
+      <p class="ev-note" id="evNote"></p>
+
+      <h3 style="margin-top:44px;font-size:1.5rem">Four literatures, four missing pieces</h3>
+      <div class="gap-grid" id="gapGrid"></div>
+
+      <h3 style="margin-top:44px;font-size:1.5rem">What the study therefore asks</h3>
+      <div class="rq-list" id="rqList"></div>
+
+      <details class="source-drop" data-sources="diliberti2024,diliberti2025,doss2025,kaufman2025,schwartz2026,nces2025,teachai2025,rice2025,alfarwan2025,zhang2024,an2025,korchinski2026,bozkurt2024,kizilcec2024,bacalja2022,greene2025,bond2024,zawacki2019,maitlis2014,weick2005,coburn2001,coburn2005,spillane2002,miner2026a,miner2026b">
+        <summary>Sources for this station</summary>
+        <ul></ul>
+      </details>
+
+      <div class="station-done" id="done-gap" hidden>
+        <p>Station 07 complete &middot; badge earned: Gap Located</p>
+        <a class="button" href="#top">Back to the top</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div>
+        <h4>The study</h4>
+        <ul>
+          <li><a href="https://minerclass.github.io/dissertation-overview/">Dissertation overview</a></li>
+          <li><a href="https://minerclass.github.io/pedagogical-friction/">Pedagogical friction companion</a></li>
+          <li><a href="https://minerclass.github.io/dissertation-proposal-studio/">Proposal studio</a></li>
+          <li><a href="https://minerclass.github.io/k12-ai-evidence-arc-2024-2026/">K&ndash;12 AI evidence arc</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Related reading</h4>
+        <ul>
+          <li><a href="https://digitalcommons.nl.edu/ie/vol18/iss1/4">When the Output Looks Like Learning (article)</a></li>
+          <li><a href="https://minerclass.github.io/technoskepticism-primer/">Technoskepticism primer</a></li>
+          <li><a href="https://minerclass.github.io/load-bearing/">Load-Bearing</a></li>
+          <li><a href="https://minerclass.github.io/qualifying-dissertation-litreview/">Qualifying paper literature review</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Ecosystem</h4>
+        <ul>
+          <li><a href="https://minerclass.github.io/">Minerclass research hub</a></li>
+          <li><a href="https://micahminer.com/">micahminer.com</a></li>
+          <li><a href="https://minerclass.github.io/games-hub/">Learning games hub</a></li>
+          <li><a href="https://github.com/minerclass">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="footer-meta">
+      The Friction Atlas &middot; Micah J. Miner &middot; Ed.D. in Curriculum, Advocacy, and Policy,
+      National Louis University. Content drawn from the submitted Chapters One through Three of the
+      dissertation proposal, July 2026. <strong>Proposal stage: no findings are reported.</strong>
+      No analytics, no cookies, no data leaves your browser. Progress is stored in localStorage and
+      cleared by the Reset button. Prose and framework
+      <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>; source code MIT.
+    </p>
+  </div>
+</footer>
+
+<div class="modal" id="codexModal" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="codexTitle">
+    <div class="modal-head">
+      <h2 id="codexTitle">Source Codex</h2>
+      <span class="tally" id="codexTallyModal"></span>
+      <button class="modal-close" id="codexClose" type="button" aria-label="Close the source codex">&times;</button>
+    </div>
+    <div class="modal-body">
+      <label class="visually-hidden" for="codexSearch">Filter sources</label>
+      <input class="codex-search" id="codexSearch" type="search" placeholder="Filter by author, topic, or year&hellip;" autocomplete="off">
+      <p class="codex-locked" id="codexLocked"></p>
+      <ul class="codex-list" id="codexList"></ul>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="citeModal" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="citeTitle" style="max-width:560px">
+    <div class="modal-head">
+      <h2 id="citeTitle">Reference</h2>
+      <button class="modal-close" id="citeClose" type="button" aria-label="Close reference">&times;</button>
+    </div>
+    <div class="modal-body"><p class="codex-ref" id="citeBody"></p></div>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/atlas.js"></script>
+</body>
+</html>
