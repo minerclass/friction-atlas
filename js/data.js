@@ -709,8 +709,7 @@ const STATIONS = [
     kicker: "Chapter One — the problem",
     color: "gold",
     lede:
-      "Assessment has long relied on an inference: a polished artifact is evidence of the thinking that produced it. This station asks what that inference is still worth.",
-    badge: "Inference Broken"
+      "Assessment has long relied on an inference: a polished artifact is evidence of the thinking that produced it. This station asks what that inference is still worth."
   },
   {
     id: "arc",
@@ -719,8 +718,7 @@ const STATIONS = [
     kicker: "Ong's developmental account, extended",
     color: "blue",
     lede:
-      "Media ecology treats communication technologies as environments rather than neutral channels. Move through five stages and watch three tacit conditions come under pressure.",
-    badge: "Arc Traced"
+      "Media ecology treats communication technologies as environments rather than neutral channels. Move through five stages and watch three tacit conditions come under pressure."
   },
   {
     id: "rupture",
@@ -729,8 +727,7 @@ const STATIONS = [
     kicker: "Tertiary algorithmicity and its three pressures",
     color: "rust",
     lede:
-      "Each broken condition names a pressure. Match them, then read what the draft says is at stake for education in each one.",
-    badge: "Pressures Named"
+      "Each broken condition names a pressure. Match them, then read what the draft says is at stake for education in each one."
   },
   {
     id: "response",
@@ -739,8 +736,7 @@ const STATIONS = [
     kicker: "The Pedagogical Friction Framework",
     color: "teal",
     lede:
-      "Four dimensions, but not four peers. Build the framework and find out why the order matters — the structure of this station is the argument.",
-    badge: "Framework Built"
+      "Four dimensions, but not four peers. Build the framework and find out why the order matters — the structure of this station is the argument."
   },
   {
     id: "boundary",
@@ -749,8 +745,7 @@ const STATIONS = [
     kicker: "Productive and exclusionary friction",
     color: "rose",
     lede:
-      "An argument for preserving friction can become an argument for preserving inequity. Ten scenarios. Some have no clean answer, and that is the point.",
-    badge: "Line Drawn"
+      "An argument for preserving friction can become an argument for preserving inequity. Ten scenarios. Some have no clean answer, and that is the point."
   },
   {
     id: "arena",
@@ -759,8 +754,7 @@ const STATIONS = [
     kicker: "Counterarguments and the limits of the framework",
     color: "violet",
     lede:
-      "A responsible framework engages the strongest objections rather than the weakest. Four objections, stated at full strength. Find the reply the draft actually makes.",
-    badge: "Objections Met"
+      "A responsible framework engages the strongest objections rather than the weakest. Four objections, stated at full strength. Find the reply the draft actually makes."
   },
   {
     id: "gap",
@@ -769,7 +763,6 @@ const STATIONS = [
     kicker: "K–12 evidence and what the literature has not done",
     color: "gold",
     lede:
-      "National evidence on adoption, policy, and guidance — then the four literatures that each hold one piece, and the gap between them this study enters.",
-    badge: "Gap Located"
+      "National evidence on adoption, policy, and guidance — then the four literatures that each hold one piece, and the gap between them this study enters."
   }
 ];

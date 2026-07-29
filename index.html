@@ -15,6 +15,8 @@
 
 <a class="skip-link" href="#station-origin">Skip to the first station</a>
 
+<p id="liveRegion" class="visually-hidden" role="status" aria-live="polite"></p>
+
 <header class="nav">
   <div class="shell nav-inner">
     <a class="brand" href="#top">THE FRICTION <span>ATLAS</span></a>
@@ -69,7 +71,6 @@
   <section class="map shell" aria-labelledby="mapHeading">
     <h2 class="visually-hidden" id="mapHeading">Station map</h2>
     <div class="map-grid" id="mapGrid"></div>
-    <div class="badge-row" id="badgeRow"></div>
   </section>
 
   <!-- 01 -------------------------------------------------------------- -->
@@ -102,7 +103,7 @@
           </p>
         </div>
         <div>
-          <h4>What does this artifact establish?</h4>
+          <h3>What does this artifact establish?</h3>
           <div class="verdict-list" id="artifactChoices"></div>
           <div class="reveal" id="artifactReveal" hidden></div>
         </div>
@@ -115,7 +116,7 @@
       </details>
 
       <div class="station-done" id="done-origin" hidden>
-        <p>Station 01 complete &middot; badge earned: Inference Broken</p>
+        <p>Station 01 complete</p>
         <a class="button" href="#station-arc">Continue to station 02</a>
       </div>
     </div>
@@ -140,6 +141,15 @@
         <div class="arc-detail" id="arcDetail"></div>
       </div>
 
+      <figure class="diagram" id="arcMatrixFigure">
+        <div class="diagram-scroll" id="arcMatrix"></div>
+        <figcaption>
+          The three tacit conditions across all five stages. Reading down a column shows what that
+          stage does to each condition; reading across a row shows one condition degrading from
+          held, through strained, to no longer holding.
+        </figcaption>
+      </figure>
+
       <div class="legend">
         <span><i style="background:var(--held)"></i> Condition holds</span>
         <span><i style="background:var(--strained)"></i> Condition strained</span>
@@ -159,7 +169,7 @@
       </details>
 
       <div class="station-done" id="done-arc" hidden>
-        <p>Station 02 complete &middot; badge earned: Arc Traced</p>
+        <p>Station 02 complete</p>
         <a class="button" href="#station-rupture">Continue to station 03</a>
       </div>
     </div>
@@ -178,8 +188,10 @@
         </p>
       </div>
 
-      <p class="prompt">Select a broken condition, then the pressure it names.</p>
-      <div class="chip-tray" id="conditionChips" role="listbox" aria-label="Conditions under pressure"></div>
+      <p class="prompt" id="rupturePrompt">
+        Two steps: choose a broken condition, then choose the pressure that names its collapse.
+      </p>
+      <div class="chip-tray" id="conditionChips" role="group" aria-labelledby="rupturePrompt"></div>
       <div class="match-grid" id="pressureGrid"></div>
 
       <p style="margin-top:26px;max-width:78ch">
@@ -196,7 +208,7 @@
       </details>
 
       <div class="station-done" id="done-rupture" hidden>
-        <p>Station 03 complete &middot; badge earned: Pressures Named</p>
+        <p>Station 03 complete</p>
         <a class="button" href="#station-response">Continue to station 04</a>
       </div>
     </div>
@@ -222,6 +234,15 @@
         increasingly available.
       </p>
 
+      <figure class="diagram">
+        <div class="diagram-scroll" id="frameworkDiagram"></div>
+        <figcaption>
+          Three learner-facing dimensions rest on the conditioning layer. Outlined layers are not
+          yet built. The load lines are the framework's structural claim: the learner-facing
+          dimensions depend on the infrastructural base rather than sitting beside it.
+        </figcaption>
+      </figure>
+
       <div class="build-stack" id="buildStack"></div>
 
       <p style="margin-top:26px;max-width:78ch">
@@ -236,7 +257,7 @@
       </details>
 
       <div class="station-done" id="done-response" hidden>
-        <p>Station 04 complete &middot; badge earned: Framework Built</p>
+        <p>Station 04 complete</p>
         <a class="button" href="#station-boundary">Continue to station 05</a>
       </div>
     </div>
@@ -260,7 +281,7 @@
       <div class="sort-stage">
         <div class="sort-card" id="sortCard"></div>
         <div>
-          <h4>Where does this difficulty sit?</h4>
+          <h3>Where does this difficulty sit?</h3>
           <div class="sort-choices" id="sortChoices"></div>
         </div>
       </div>
@@ -272,7 +293,7 @@
       </details>
 
       <div class="station-done" id="done-boundary" hidden>
-        <p>Station 05 complete &middot; badge earned: Line Drawn</p>
+        <p>Station 05 complete</p>
         <a class="button" href="#station-arena">Continue to station 06</a>
       </div>
     </div>
@@ -301,7 +322,7 @@
       </details>
 
       <div class="station-done" id="done-arena" hidden>
-        <p>Station 06 complete &middot; badge earned: Objections Met</p>
+        <p>Station 06 complete</p>
         <a class="button" href="#station-gap">Continue to station 07</a>
       </div>
     </div>
@@ -337,7 +358,7 @@
       </details>
 
       <div class="station-done" id="done-gap" hidden>
-        <p>Station 07 complete &middot; badge earned: Gap Located</p>
+        <p>Station 07 complete</p>
         <a class="button" href="#top">Back to the top</a>
       </div>
     </div>
@@ -349,7 +370,7 @@
   <div class="shell">
     <div class="footer-grid">
       <div>
-        <h4>The study</h4>
+        <h3>The study</h3>
         <ul>
           <li><a href="https://minerclass.github.io/dissertation-overview/">Dissertation overview</a></li>
           <li><a href="https://minerclass.github.io/pedagogical-friction/">Pedagogical friction companion</a></li>
@@ -358,7 +379,7 @@
         </ul>
       </div>
       <div>
-        <h4>Related reading</h4>
+        <h3>Related reading</h3>
         <ul>
           <li><a href="https://digitalcommons.nl.edu/ie/vol18/iss1/4">When the Output Looks Like Learning (article)</a></li>
           <li><a href="https://minerclass.github.io/technoskepticism-primer/">Technoskepticism primer</a></li>
@@ -368,7 +389,7 @@
         </ul>
       </div>
       <div>
-        <h4>Ecosystem</h4>
+        <h3>Ecosystem</h3>
         <ul>
           <li><a href="https://minerclass.github.io/">Minerclass research hub</a></li>
           <li><a href="https://micahminer.com/">micahminer.com</a></li>

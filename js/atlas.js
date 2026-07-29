@@ -68,6 +68,20 @@
     return node;
   }
 
+  /*
+   * Single polite live region. Dynamic reveals, completion, and unlock counts are
+   * all visual-only otherwise, so anything a sighted reader learns from a state
+   * change is announced here too.
+   */
+  function announce(msg) {
+    var region = $("#liveRegion");
+    if (!region || !msg) return;
+    // Re-announce identical messages by clearing first; some AT ignore an
+    // unchanged textContent.
+    region.textContent = "";
+    window.setTimeout(function () { region.textContent = msg; }, 60);
+  }
+
   function unlock(keys) {
     var added = 0;
     (keys || []).forEach(function (k) {
@@ -116,6 +130,11 @@
     renderProgress();
     var banner = $("#done-" + stationId);
     if (banner) banner.hidden = false;
+    var st = STATIONS.find(function (s) { return s.id === stationId; });
+    var n = STATIONS.filter(function (s) { return state.done[s.id]; }).length;
+    announce("Station " + (st ? st.num : "") + " complete. " + n + " of " +
+      STATIONS.length + " stations done. " + sourceCount() + " of " + totalSources() +
+      " references collected.");
   }
 
   function renderProgress() {
@@ -126,7 +145,6 @@
     var track = $(".progress-track");
     track.setAttribute("aria-valuenow", String(n));
     renderMap();
-    renderBadges();
   }
 
   function renderMap() {
@@ -147,17 +165,6 @@
         el("span", { class: "m-state", text: done ? "Complete ✓" : (firstOpen && firstOpen.id === s.id ? "You are here" : "Not visited") })
       ]);
       grid.appendChild(card);
-    });
-  }
-
-  function renderBadges() {
-    var row = $("#badgeRow");
-    row.innerHTML = "";
-    STATIONS.forEach(function (s) {
-      row.appendChild(el("span", {
-        class: "badge" + (state.done[s.id] ? " earned" : ""),
-        text: (state.done[s.id] ? "★ " : "☆ ") + s.badge
-      }));
     });
   }
 
@@ -191,19 +198,31 @@
     ARTIFACT_CHOICES.forEach(function (c) {
       wrap.appendChild(el("button", {
         class: "verdict", type: "button", "data-id": c.id, text: c.text,
+        "aria-pressed": "false",
         onclick: function () { pick(c); }
       }));
     });
 
     function pick(c) {
       $$(".verdict", wrap).forEach(function (b) {
+        var isPick = b.getAttribute("data-id") === c.id;
+        var choice = ARTIFACT_CHOICES.find(function (x) { return x.id === b.getAttribute("data-id"); });
         b.disabled = true;
-        if (b.getAttribute("data-id") === c.id) b.classList.add("picked");
-        else b.classList.add("dimmed");
+        b.setAttribute("aria-pressed", isPick ? "true" : "false");
+        b.classList.add(isPick ? "picked" : "dimmed");
+        // Always identify the draft's own answer, so a reader who picked a
+        // different one still learns which it was rather than inferring it.
+        if (choice && choice.verdict) {
+          b.classList.add("is-answer");
+          b.appendChild(el("span", { class: "answer-tag", text: "The draft's reading" }));
+        }
       });
 
       reveal.innerHTML = "";
-      reveal.appendChild(el("h4", { text: c.verdict ? "That is the draft's reading" : "The draft goes further" }));
+      reveal.className = "reveal" + (c.verdict ? "" : " is-off");
+      reveal.appendChild(el("h3", {
+        text: c.verdict ? "That is the draft's reading" : "Not quite — the draft goes further"
+      }));
       reveal.appendChild(el("p", { text: c.why }));
       reveal.appendChild(el("p", { html:
         "The framework names this <strong>unproductive success</strong>, adapted from Kapur's productive-failure work: " +
@@ -212,6 +231,7 @@
       p.appendChild(citeList(["kapur2016", "bastani2025", "miner2026b"]));
       reveal.appendChild(p);
       reveal.hidden = false;
+      announce((c.verdict ? "That is the draft's reading. " : "Not quite. ") + c.why);
 
       complete("origin", ["bastani2025", "kapur2016", "kizilcec2024", "schindler2023", "miner2026b", "doss2025"]);
     }
@@ -240,8 +260,7 @@
         class: "arc-stop" + (stage.isNew ? " is-new" : ""),
         type: "button", role: "tab", id: "arctab-" + stage.id,
         "aria-selected": i === 0 ? "true" : "false",
-        "aria-controls": "arcDetail",
-        onclick: function () { select(stage.id); }
+        "aria-controls": "arcDetail"
       }, [
         el("span", { class: "a-era", text: stage.era }),
         el("span", { class: "a-label", text: stage.label }),
@@ -249,6 +268,7 @@
           return el("i", { class: "arc-dot " + stage.conditions[c.key], "aria-hidden": "true" });
         }))
       ]);
+      stop.addEventListener("click", function () { select(stage.id, true); });
       rail.appendChild(stop);
     });
 
@@ -263,7 +283,12 @@
       tabs[next].focus();
     });
 
-    function select(id) {
+    /*
+     * activated=false is the initial paint. It shows the first stage without
+     * recording it as visited or unlocking its sources, so the codex tally and
+     * the progress state only ever reflect something the reader actually did.
+     */
+    function select(id, activated) {
       var stage = STAGES.find(function (s) { return s.id === id; });
       $$(".arc-stop", rail).forEach(function (t) {
         t.setAttribute("aria-selected", t.id === "arctab-" + id ? "true" : "false");
@@ -297,6 +322,8 @@
       });
       detail.appendChild(right);
 
+      if (!activated) return;
+
       if (!state.arcSeen[id]) { state.arcSeen[id] = true; save(); }
       unlock(stage.sources);
 
@@ -305,7 +332,78 @@
       }
     }
 
-    select(STAGES[0].id);
+    /*
+     * Condition matrix: the three tacit conditions across all five stages in one
+     * view. The rail shows one stage at a time, which makes the degradation from
+     * held to broken something a reader has to reconstruct by clicking. This shows
+     * the shape of the argument directly. Generated from STAGES/CONDITIONS —
+     * no new content.
+     */
+    function renderMatrix() {
+      var host = $("#arcMatrix");
+      if (!host) return;
+
+      // padL leaves room for right-aligned row labels; "Accountable claimant" is
+      // the longest and must not run into the first column.
+      var colW = 116, rowH = 54, padL = 190, padT = 46;
+      var w = padL + colW * STAGES.length + 12;
+      var h = padT + rowH * CONDITIONS.length + 14;
+      var fill = { held: "var(--held)", strained: "var(--strained)", broken: "var(--broken)" };
+      var svgns = "http://www.w3.org/2000/svg";
+
+      function node(tag, attrs, text) {
+        var n = document.createElementNS(svgns, tag);
+        Object.keys(attrs || {}).forEach(function (k) { n.setAttribute(k, attrs[k]); });
+        if (text != null) n.textContent = text;
+        return n;
+      }
+
+      host.innerHTML = "";
+      var svg = node("svg", {
+        viewBox: "0 0 " + w + " " + h,
+        role: "img",
+        "aria-label": "Matrix of the three tacit conditions across the five media-ecology stages, " +
+          "showing each condition moving from holding to strained to no longer holding.",
+        preserveAspectRatio: "xMinYMin meet"
+      });
+
+      STAGES.forEach(function (s, c) {
+        var x = padL + colW * c + colW / 2;
+        var label = s.label.split(" ");
+        label.forEach(function (word, li) {
+          svg.appendChild(node("text", {
+            x: x, y: 16 + li * 12, "text-anchor": "middle",
+            class: "mx-col" + (s.isNew ? " mx-new" : "")
+          }, word));
+        });
+      });
+
+      CONDITIONS.forEach(function (cond, r) {
+        var y = padT + rowH * r;
+        svg.appendChild(node("text", {
+          x: padL - 14, y: y + rowH / 2 + 4, "text-anchor": "end", class: "mx-row"
+        }, cond.short));
+        STAGES.forEach(function (s, c) {
+          var st = s.conditions[cond.key];
+          // The whole grid renders at full strength. Fading unvisited stages would
+          // defeat the point of the diagram, which is to show the shape of the
+          // degradation in one look rather than one stage at a time.
+          var g = node("g", {});
+          g.appendChild(node("rect", {
+            x: padL + colW * c + 6, y: y + 8, width: colW - 12, height: rowH - 16,
+            rx: 2, fill: fill[st], "fill-opacity": st === "held" ? "0.9" : "0.85"
+          }));
+          g.appendChild(node("title", {}, s.label + " — " + cond.short + ": " +
+            (st === "held" ? "holds" : st === "strained" ? "strained" : "no longer holds")));
+          svg.appendChild(g);
+        });
+      });
+
+      host.appendChild(svg);
+    }
+
+    select(STAGES[0].id, false);
+    renderMatrix();
   }
 
   /* ---------------------------------------------------------- station 03 */
@@ -318,19 +416,40 @@
 
     CONDITIONS.forEach(function (c) {
       tray.appendChild(el("button", {
-        class: "chip", type: "button", role: "option", "aria-selected": "false",
+        class: "chip", type: "button", "aria-pressed": "false",
         "data-key": c.key, text: c.short,
         title: c.full,
         onclick: function () { chooseChip(c.key, this); }
       }));
     });
 
+    /*
+     * The slots are not drop targets — there is no drag anywhere on this page.
+     * Their label tracks the selection so the two-step interaction (choose a
+     * condition, then choose a pressure) is legible before the first click
+     * rather than after a failed one.
+     */
+    function slotLabel() {
+      if (!selectedChip) return "Select a condition above";
+      var c = CONDITIONS.find(function (x) { return x.key === selectedChip; });
+      return "Place “" + c.short + "” here";
+    }
+
+    function refreshSlots() {
+      $$(".match-slot", grid).forEach(function (s) {
+        if (s.disabled || s.classList.contains("filled")) return;
+        s.textContent = slotLabel();
+        s.classList.toggle("is-armed", !!selectedChip);
+      });
+    }
+
     function clearSelection() {
       selectedChip = null;
       $$(".chip", tray).forEach(function (n) {
         n.classList.remove("is-selected");
-        n.setAttribute("aria-selected", "false");
+        n.setAttribute("aria-pressed", "false");
       });
+      refreshSlots();
     }
 
     function chooseChip(key, node) {
@@ -339,7 +458,8 @@
       if (wasSelected) return;
       selectedChip = key;
       node.classList.add("is-selected");
-      node.setAttribute("aria-selected", "true");
+      node.setAttribute("aria-pressed", "true");
+      refreshSlots();
     }
 
     PRESSURES.forEach(function (p) {
@@ -351,7 +471,7 @@
 
       var slot = el("button", {
         class: "match-slot", type: "button", "data-pressure": p.id,
-        text: "Drop a condition here",
+        text: "Select a condition above",
         onclick: function () { drop(p, this, card); }
       });
       card.appendChild(slot);
@@ -369,10 +489,9 @@
 
     function drop(pressure, slot, card) {
       if (!selectedChip) {
-        slot.textContent = "Select a condition first";
-        window.setTimeout(function () {
-          if (!placed[pressure.id]) slot.textContent = "Drop a condition here";
-        }, 1400);
+        // Rare now that the label states the precondition, but keep it graceful.
+        announce("Select a condition first, then choose the pressure it names.");
+        tray.querySelector(".chip:not(.is-used)").focus();
         return;
       }
       if (placed[pressure.id]) return;
@@ -381,7 +500,11 @@
       var right = cond.pressure === pressure.id;
 
       slot.textContent = cond.short + (right ? "  ✓" : "  ✕");
+      slot.classList.remove("is-armed");
       slot.classList.add("filled", right ? "correct" : "wrong");
+      announce(cond.short + (right
+        ? " matches " + pressure.name + "."
+        : " is not the condition " + pressure.name + " names. Try another pressure."));
 
       // Either way the selection is consumed, so a retry always starts from a
       // clean state rather than silently toggling the same chip back off.
@@ -402,11 +525,14 @@
       } else {
         window.setTimeout(function () {
           if (placed[pressure.id]) return;
-          slot.textContent = "Drop a condition here";
           slot.classList.remove("filled", "wrong");
+          slot.textContent = slotLabel();
+          slot.classList.toggle("is-armed", !!selectedChip);
         }, 1500);
       }
     }
+
+    refreshSlots();
   }
 
   /* ---------------------------------------------------------- station 04 */
@@ -416,7 +542,88 @@
 
     function baseBuilt() { return !!state.builtLayers.infrastructural; }
 
+    /*
+     * Framework diagram: three learner-facing dimensions resting on the
+     * infrastructural base. The station's lock already enforces this ordering;
+     * the diagram makes the structural claim visible rather than inferred.
+     * Built layers are solid, unbuilt are outlined.
+     */
+    function renderDiagram() {
+      var host = $("#frameworkDiagram");
+      if (!host) return;
+      var svgns = "http://www.w3.org/2000/svg";
+      function node(tag, attrs, text) {
+        var n = document.createElementNS(svgns, tag);
+        Object.keys(attrs || {}).forEach(function (k) { n.setAttribute(k, attrs[k]); });
+        if (text != null) n.textContent = text;
+        return n;
+      }
+
+      var learner = FRICTIONS.filter(function (f) { return f.layer === "learner"; });
+      var base = FRICTIONS.find(function (f) { return f.layer === "base"; });
+      var accents = { noetic: "var(--gold)", rhetorical: "var(--blue)", existential: "var(--rose)" };
+
+      var W = 640, colW = 180, gap = 20, topY = 26, boxH = 88, baseY = 148, baseH = 72;
+      var startX = (W - (colW * 3 + gap * 2)) / 2;
+
+      host.innerHTML = "";
+      var built = FRICTIONS.filter(function (f) { return state.builtLayers[f.id]; }).length;
+      var svg = node("svg", {
+        viewBox: "0 0 " + W + " " + (baseY + baseH + 26),
+        role: "img",
+        "aria-label": "Diagram of the Pedagogical Friction Framework: noetic, rhetorical, and " +
+          "existential friction are learner-facing dimensions resting on infrastructural friction, " +
+          "the conditioning layer that enables or constrains them. " + built + " of 4 layers built.",
+        preserveAspectRatio: "xMidYMin meet"
+      });
+
+      learner.forEach(function (f, i) {
+        var x = startX + (colW + gap) * i;
+        var on = !!state.builtLayers[f.id];
+        var c = accents[f.id] || "var(--gold)";
+        svg.appendChild(node("rect", {
+          x: x, y: topY, width: colW, height: boxH, rx: 3,
+          fill: on ? c : "transparent", "fill-opacity": on ? "0.16" : "0",
+          stroke: c, "stroke-opacity": on ? "1" : "0.4",
+          "stroke-dasharray": on ? "0" : "4 4"
+        }));
+        svg.appendChild(node("text", {
+          x: x + colW / 2, y: topY + 30, "text-anchor": "middle", class: "fd-place"
+        }, f.place.toUpperCase()));
+        svg.appendChild(node("text", {
+          x: x + colW / 2, y: topY + 54, "text-anchor": "middle",
+          class: "fd-name" + (on ? " is-on" : "")
+        }, f.name.replace(" friction", "")));
+        svg.appendChild(node("text", {
+          x: x + colW / 2, y: topY + 72, "text-anchor": "middle", class: "fd-place"
+        }, "friction"));
+        // Load line down to the base.
+        svg.appendChild(node("line", {
+          x1: x + colW / 2, y1: topY + boxH, x2: x + colW / 2, y2: baseY,
+          stroke: c, "stroke-opacity": on ? "0.6" : "0.22",
+          "stroke-dasharray": on ? "0" : "3 3"
+        }));
+      });
+
+      var onBase = baseBuilt();
+      svg.appendChild(node("rect", {
+        x: startX, y: baseY, width: colW * 3 + gap * 2, height: baseH, rx: 3,
+        fill: "var(--teal)", "fill-opacity": onBase ? "0.18" : "0",
+        stroke: "var(--teal)", "stroke-opacity": onBase ? "1" : "0.4",
+        "stroke-dasharray": onBase ? "0" : "4 4"
+      }));
+      svg.appendChild(node("text", {
+        x: W / 2, y: baseY + 26, "text-anchor": "middle", class: "fd-place"
+      }, "SYSTEM · CONDITIONING LAYER"));
+      svg.appendChild(node("text", {
+        x: W / 2, y: baseY + 50, "text-anchor": "middle",
+        class: "fd-name" + (onBase ? " is-on" : "")
+      }, base ? base.name : "Infrastructural friction"));
+      host.appendChild(svg);
+    }
+
     function render() {
+      renderDiagram();
       stack.innerHTML = "";
       // Learner-facing dimensions render above the base, which sits last as the
       // foundation. Order in the DOM is visual; the gate is what carries the argument.
@@ -478,7 +685,7 @@
 
       if (baseBuilt() && FRICTIONS.every(function (f) { return state.builtLayers[f.id]; })) {
         var note = el("div", { class: "panel", style: "margin-top:14px;border-color:var(--teal)" });
-        note.appendChild(el("h4", { style: "color:var(--teal)", text: "Why the order was enforced" }));
+        note.appendChild(el("h3", { style: "color:var(--teal);font-size:1.05rem", text: "Why the order was enforced" }));
         note.appendChild(el("p", { style: "margin:0", text:
           "Individual teachers cannot preserve noetic, rhetorical, and existential friction alone if grades, " +
           "pacing guides, device environments, parent expectations, and district policy reward frictionless " +
@@ -564,7 +771,7 @@
     function showReveal(sc, chosen) {
       var matched = chosen === sc.verdict;
       reveal.innerHTML = "";
-      reveal.appendChild(el("h4", {
+      reveal.appendChild(el("h3", {
         text: matched ? "This matches the draft's reading" : "The draft reads this differently"
       }));
       if (sc.isBypass) {
@@ -636,11 +843,11 @@
       panel.innerHTML = "";
 
       var sm = el("div", { class: "steelman" });
-      sm.appendChild(el("h4", { text: o.title + " — stated at full strength" }));
+      sm.appendChild(el("h3", { text: o.title + " — stated at full strength" }));
       sm.appendChild(el("p", { text: o.steelman }));
       panel.appendChild(sm);
 
-      panel.appendChild(el("h4", { text: "Which reply does the draft actually make?" }));
+      panel.appendChild(el("h3", { text: "Which reply does the draft actually make?" }));
       var list = el("div", { class: "verdict-list" });
       o.options.forEach(function (opt, i) {
         list.appendChild(el("button", {
@@ -659,7 +866,7 @@
 
     function fillReveal(node, o, opt, correct) {
       node.innerHTML = "";
-      node.appendChild(el("h4", { text: correct ? "That is the draft's reply" : "Not the draft's reply" }));
+      node.appendChild(el("h3", { text: correct ? "That is the draft's reply" : "Not the draft's reply" }));
       node.appendChild(el("p", { text: opt.why }));
       if (correct) {
         node.appendChild(el("h4", { style: "margin-top:16px", text: "And the limit the draft concedes" }));
@@ -720,7 +927,7 @@
       EVIDENCE_GROUPS.filter(function (g) { return shown === "all" || g.group === shown; })
         .forEach(function (g) {
           var wrap = el("div", { class: "ev-group" });
-          wrap.appendChild(el("h4", { text: g.group }));
+          wrap.appendChild(el("h3", { class: "ev-group-title", text: g.group }));
           g.rows.forEach(function (r) {
             var bar = el("div", { class: "ev-bar", style: "background:var(--" + g.color + ")" });
             wrap.appendChild(el("div", { class: "ev-row" }, [
@@ -852,9 +1059,38 @@
     });
 
     document.addEventListener("keydown", function (e) {
-      if (e.key !== "Escape") return;
-      if (!codex.hidden) close(codex);
-      if (!cite.hidden) close(cite);
+      if (e.key === "Escape") {
+        if (!codex.hidden) close(codex);
+        if (!cite.hidden) close(cite);
+        return;
+      }
+      if (e.key !== "Tab") return;
+
+      /*
+       * These boxes carry aria-modal="true", which tells assistive technology the
+       * rest of the page is inert. Without a trap that promise is false: Tab used
+       * to walk straight out of an open modal into the page behind it.
+       */
+      var open = !codex.hidden ? codex : (!cite.hidden ? cite : null);
+      if (!open) return;
+      var focusable = $$(
+        'a[href], button:not([disabled]), input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])',
+        open
+      ).filter(function (n) { return n.offsetWidth || n.offsetHeight || n === document.activeElement; });
+      if (!focusable.length) return;
+
+      var first = focusable[0];
+      var last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      } else if (!open.contains(document.activeElement)) {
+        e.preventDefault();
+        first.focus();
+      }
     });
 
     $("#codexSearch").addEventListener("input", function () {
@@ -897,7 +1133,7 @@
 
   function initReset() {
     $("#resetBtn").addEventListener("click", function () {
-      if (!window.confirm("Clear all progress, badges, and collected sources? This cannot be undone.")) return;
+      if (!window.confirm("Clear your progress and collected sources? This cannot be undone.")) return;
       try { localStorage.removeItem(STORE_KEY); } catch (e) { /* non-fatal */ }
       window.location.reload();
     });
