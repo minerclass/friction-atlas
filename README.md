@@ -36,11 +36,17 @@ Two interactions are deliberately more than decoration:
   clean answer, and the draft says so explicitly. Marking them contested is the correct
   response, not a hedge.
 
-## Progress, badges, and the Source Codex
+## Progress and the Source Codex
 
-Completing a station earns a badge and unlocks its references into a searchable **Source
-Codex** — all 105 references cited across Chapters One and Two. Finishing all seven stations
-yields a complete codex. Any inline citation on the page opens its full APA reference.
+Completing a station unlocks its references into a searchable **Source Codex** — all 105
+references cited across Chapters One and Two. Finishing all seven stations yields a complete
+codex. Any inline citation on the page opens its full APA reference.
+
+Progress is deliberately **quiet**: a bar, an `n / 7` count, and per-station states on the
+station map. There are no badges or scores. Stations complete on engagement rather than on
+correct answers, so the progress indicator answers "how much is left," not "how well did I do."
+Right and wrong answers are still distinguished clearly in each station's reveal — the site just
+does not tally them.
 
 Progress lives in `localStorage` under `friction-atlas-v1` and is cleared by the **Reset**
 button in the header. Nothing is transmitted anywhere.
@@ -107,7 +113,19 @@ is needed.
 Keyboard-navigable throughout, including arrow-key movement across the station-02 timeline.
 Skip link, ARIA tablists and progressbar, visible focus rings, `prefers-reduced-motion`
 support, and a dark palette whose gold-on-near-black text clears WCAG AA. Wide content (the
-timeline) scrolls inside its own container rather than the page.
+timeline and both diagrams) scrolls inside its own container rather than the page.
+
+Added in the July 2026 review pass:
+
+- A single polite `role="status"` region (`#liveRegion`) announcing reveals, station completion,
+  and reference counts, so state changes are not visual-only.
+- A focus trap in both modals, which previously declared `aria-modal="true"` while allowing Tab
+  to leave the dialog.
+- `aria-pressed` on the choice buttons, whose selected state had been conveyed by class alone.
+- A 24px minimum for interactive targets, including the inline citation buttons.
+- A 0.75rem (12px) floor on type; several mono micro-labels had been 9–10px.
+- Both SVG diagrams expose `role="img"` with an accessible name, and the matrix gives each cell a
+  `<title>`.
 
 ## License
 

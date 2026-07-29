@@ -6,7 +6,7 @@ Guidance for any agent or collaborator editing this repository.
 
 A public, gamified interactive literature review covering **Chapter Two** (with Chapter One's
 problem statement as the entry point) of Micah J. Miner's dissertation proposal. Seven stations,
-a badge/progress system, and a 105-reference Source Codex. It is orientation and argument, not a
+a quiet progress indicator, and a 105-reference Source Codex. It is orientation and argument, not a
 findings report, and it collects no data.
 
 ## Hard rules
@@ -18,7 +18,15 @@ findings report, and it collects no data.
    renders it and must never hardcode scholarly text. Fix claims in `data.js`.
 3. **No network requests.** No CDNs, fonts, analytics, or third-party scripts. Everything ships
    in-repo. A CSP-strict host must be able to serve this unchanged.
-4. **Every source key must be reachable.** If you add a key to `SOURCES`, add it to at least one
+4. **Progress stays quiet.** A bar, an `n / 7` count, and station-map states. Do not reintroduce
+   badges, stars, scores, or streaks. Stations complete on engagement, not correctness, so any
+   achievement framing would misrepresent what is being measured. Distinguishing right from wrong
+   inside a station's reveal is required; tallying it is not.
+5. **There is no drag-and-drop anywhere.** Station 03 is select-then-place. Labels, cursors, and
+   hints must describe that, never imply dragging.
+6. **Anything a sighted reader learns from a state change goes through `announce()`.** The
+   `#liveRegion` element is the only live region; keep it polite and keep it the only one.
+7. **Every source key must be reachable.** If you add a key to `SOURCES`, add it to at least one
    station's `data-sources` drawer in `index.html`, or the codex can never reach 105/105. Verify:
 
    ```bash
