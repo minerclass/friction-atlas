@@ -189,11 +189,11 @@ const STAGES = [
     isNew: true,
     blurb:
       "Humans still create symbolic content, but algorithms increasingly determine which content reaches which consciousness. The feed replaces the schedule, and the shared symbolic environment fragments.",
-    conditions: { authorship: "held", interlocutors: "strained", claimant: "held" },
+    conditions: { authorship: "held", interlocutors: "strained", claimant: "strained" },
     conditionNotes: {
       authorship: "Content creation remains human. This is the decisive reason the stage still belongs to secondary orality.",
       interlocutors: "Two users opening the same application encounter different content sequenced to capture attention.",
-      claimant: "A human still stands behind the post, even when engagement ranking decides who sees it."
+      claimant: "A human still stands behind the post, but engagement-driven circulation further mediates the relation between a claim and the person answerable for it."
     },
     sources: ["stalder2018", "boyd2007", "bucher2012", "pariser2011", "zuboff2019", "tufekci2017", "wu2016", "bakshy2015", "brady2017", "vosoughi2018"]
   },

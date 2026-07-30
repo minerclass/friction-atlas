@@ -88,24 +88,39 @@ diagram-only.
 | **No closing synthesis.** The seventh station ends and the footer begins. | Worth adding, but it is new scholarly content and belongs to the author. |
 | Repository `homepage` field is unset. | Not settable from a commit; needs the repository settings or the API. |
 
-### Surfaced by the new diagram — a content question, not a bug
+### Surfaced by the new diagram, then corrected against the proposal
 
-The condition matrix makes the full 3×5 grid visible at once, and that exposes one non-monotonic
-value that five separate tab clicks had kept hidden. Reading the *accountable claimant* row across
-the stages, `data.js` gives:
+The condition matrix makes the full 3×5 grid visible at once, and that exposed one non-monotonic
+value that five separate tab clicks had kept hidden. The *accountable claimant* row read:
 
 | Primary orality | Literacy | Secondary orality | Algorithmic secondary orality | Tertiary algorithmicity |
 |---|---|---|---|---|
 | holds | strained | strained | **holds** | broken |
 
-The claimant condition recovers from *strained* back to *holds* in the algorithmic-secondary-orality
-stage before breaking. That may be exactly right — platform-era content is still human-authored and
-attributable, arguably more legibly so with profiles and verification — but it now reads as a visible
-dip in an otherwise monotonic decline, and a reader may take it for an error.
+The condition recovered from *strained* back to *holds* in the platform era before breaking.
 
-The rendering is faithful to `data.js`; nothing was changed. This is a scholarly claim and belongs to
-the author. Either it is intentional and the caption or the stage's `conditionNotes` should say why,
-or the value needs revisiting.
+Checked against the submitted Chapters 1–3, this was an error. The proposal states that the three
+tacit conditions "remain largely intact across Ong's account of primary orality, literacy, and
+secondary orality," and characterizes this one as follows:
+
+> The third condition is that symbolic claims remain connected to an identifiable human claimant.
+> Literacy increased the distance between author and audience, and broadcast media further mediated
+> that relation, but the text, script, or performance still pointed toward people who could be
+> understood as responsible for its claims. **Generative AI weakens this connection.**
+
+Two things follow. *Strained* at literacy and secondary orality is a faithful reading of "increased
+the distance… further mediated that relation… but still pointed toward people." And it is
+**generative AI** — tertiary algorithmicity — that breaks the condition. Nothing in the proposal's
+account of algorithmic secondary orality restores accountable claimancy; that stage's change is to
+*circulation*, and the sources cited there on false-news diffusion and emotional contagion
+(Vosoughi et al., 2018; Brady et al., 2017) weaken the connection rather than strengthen it.
+
+**Corrected** to `claimant: "strained"`, and the stage's `conditionNote` now names the mediation
+instead of implying the condition is untroubled. All three rows are now monotonic: held or strained
+across the first four stages, broken at tertiary algorithmicity.
+
+This is the one substantive content change in the review pass, and it was made from the controlling
+proposal rather than from inference.
 
 ---
 
@@ -117,5 +132,7 @@ or the value needs revisiting.
 - 375px: no page-level horizontal overflow.
 - No new network requests; no CDN, font, or analytics references introduced.
 - No participant, IRB, or district material touched. The station-01 sample essay remains invented.
-- No scholarly claim, citation, or reference was altered. All content edits were confined to
-  interface copy.
+- No citation or reference was altered. One scholarly value was corrected — the
+  accountable-claimant state at algorithmic secondary orality — sourced to the submitted
+  Chapters 1–3 and documented above. All other content edits were confined to interface copy.
+- Condition matrix re-checked after the correction: all three rows monotonic, no stage regresses.
