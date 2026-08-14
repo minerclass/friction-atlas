@@ -11,7 +11,8 @@ findings report, and it collects no data.
 
 ## Hard rules
 
-1. **No findings.** The study is at the proposal stage, before data collection and IRB approval.
+1. **No findings.** The proposal was approved August 13, 2026, but the study remains before data
+   collection and IRB approval.
    Never add language implying results, participant quotes, or themes. Station 07's numbers are
    *secondary* analysis of public datasets and must keep their noncomparability note.
 2. **`js/data.js` is the single source of truth for content.** The engine in `js/atlas.js`

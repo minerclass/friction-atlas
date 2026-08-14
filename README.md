@@ -53,8 +53,9 @@ button in the header. Nothing is transmitted anywhere.
 
 ## Scholarly guardrails
 
-- **Proposal stage.** The site presents reviewed literature and the conceptual framework. It
-  reports **no findings**. Data collection has not occurred.
+- **Proposal approved, pre-data-collection.** The proposal was approved August 13, 2026. The site
+  presents reviewed literature and the conceptual framework. It reports **no findings**. Data
+  collection has not occurred.
 - **Station 07 is secondary analysis.** The Table 1 figures are weighted descriptive estimates
   from public RAND/Gallup microdata and published NCES School Pulse Panel results, reproduced
   with the draft's full noncomparability note. They are not results from the proposed
