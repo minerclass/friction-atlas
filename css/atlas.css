@@ -6,13 +6,17 @@
  */
 
 :root {
-  --bg: #111318;
-  --surface: #181b22;
-  --surface-2: #20242d;
+  /* Ground, ink, and rules come from the shared ecosystem tokens at
+     https://minerclass.github.io/tokens.css, with each fallback set to this
+     page's pre-adoption value so a failed load changes nothing. Accents local. */
+  --bg: var(--mjm-bg, #111318);
+  --surface: var(--mjm-surface, #181b22);
+  --surface-2: var(--mjm-surface-2, #20242d);
+  --mjm-accent: var(--mjm-gold, #f0bd45);
   --surface-3: #272c37;
   --line: #343945;
   --line-soft: #2a2f39;
-  --ink: #f0eee8;
+  --ink: var(--mjm-ink, #f0eee8);
   --muted: #a8adb7;
   --muted-dim: #868c97;
 
