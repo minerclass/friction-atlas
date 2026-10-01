@@ -22,7 +22,7 @@ const SOURCES = {
   alfarwan2025: { ref: "Alfarwan, A. (2025). Generative AI use in K–12 education: A systematic review. <em>Frontiers in Education, 10</em>, Article 1647573.", tag: "K–12 evidence" },
   an2025: { ref: "An, Y., & James, S. (2025). Generative AI integration in K–12 settings: Teachers' perceptions and levels of integration. <em>TechTrends, 69</em>, 1304–1317.", tag: "K–12 evidence" },
   annamma2013: { ref: "Annamma, S. A., Connor, D., & Ferri, B. (2013). Dis/ability critical race studies (DisCrit): Theorizing at the intersections of race and dis/ability. <em>Race Ethnicity and Education, 16</em>(1), 1–31.", tag: "Equity" },
-  bacalja2022: { ref: "Bacalja, A., Beavis, C., & O'Brien, A. (2022). Shifting landscapes of digital literacy. <em>The Australian Journal of Language and Literacy, 45</em>(3), 253–263.", tag: "Digital literacy" },
+  bacalja2022: { ref: "Bacalja, A., Beavis, C., & O'Brien, A. (2022). Shifting landscapes of digital literacy. <em>The Australian Journal of Language and Literacy, 45</em>(2), 253–263.", tag: "Digital literacy" },
   bailenson2021: { ref: "Bailenson, J. N. (2021). Nonverbal overload: A theoretical argument for the causes of Zoom fatigue. <em>Technology, Mind, and Behavior, 2</em>(1).", tag: "Mediated dialogue" },
   bakshy2015: { ref: "Bakshy, E., Messing, S., & Adamic, L. A. (2015). Exposure to ideologically diverse news and opinion on Facebook. <em>Science, 348</em>(6239), 1130–1132.", tag: "Platform studies" },
   bastani2025: { ref: "Bastani, H., Bastani, O., Sungu, A., Ge, H., Kabakcı, Ö., & Mariman, R. (2025). Generative AI without guardrails can harm learning: Evidence from high school mathematics. <em>PNAS, 122</em>(26), Article e2422633122.", tag: "Learning evidence" },
